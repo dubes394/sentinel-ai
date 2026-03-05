@@ -1,0 +1,64 @@
+{
+  "services": [
+    {
+      "id": "payment-gateway",
+      "name": "Payment Gateway",
+      "description": "Processes all inbound client payments",
+      "dependencies": ["fraud-checker", "settlement-service"],
+      "normal_latency_ms": 120,
+      "normal_error_rate": 0.002,
+      "critical_threshold_latency": 2000,
+      "critical_threshold_error_rate": 0.05
+    },
+    {
+      "id": "settlement-service",
+      "name": "Settlement Service",
+      "description": "Settles trades and transfers to banking partners",
+      "dependencies": ["banking-api", "compliance-logger"],
+      "normal_latency_ms": 340,
+      "normal_error_rate": 0.001,
+      "critical_threshold_latency": 3000,
+      "critical_threshold_error_rate": 0.03
+    },
+    {
+      "id": "banking-api",
+      "name": "Banking API",
+      "description": "External connection to banking partners (RBC, TD)",
+      "dependencies": [],
+      "normal_latency_ms": 280,
+      "normal_error_rate": 0.003,
+      "critical_threshold_latency": 4000,
+      "critical_threshold_error_rate": 0.08
+    },
+    {
+      "id": "fraud-checker",
+      "name": "Fraud Detection Service",
+      "description": "Real-time fraud scoring on all transactions",
+      "dependencies": [],
+      "normal_latency_ms": 45,
+      "normal_error_rate": 0.001,
+      "critical_threshold_latency": 500,
+      "critical_threshold_error_rate": 0.02
+    },
+    {
+      "id": "compliance-logger",
+      "name": "Compliance Logger",
+      "description": "Logs all transactions for regulatory audit trail",
+      "dependencies": [],
+      "normal_latency_ms": 30,
+      "normal_error_rate": 0.0005,
+      "critical_threshold_latency": 300,
+      "critical_threshold_error_rate": 0.01
+    },
+    {
+      "id": "notification-service",
+      "name": "Notification Service",
+      "description": "Sends email/push alerts to clients",
+      "dependencies": ["payment-gateway"],
+      "normal_latency_ms": 200,
+      "normal_error_rate": 0.005,
+      "critical_threshold_latency": 2000,
+      "critical_threshold_error_rate": 0.1
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "name": "Payment Gateway Cascade",
+      "description": "Banking API timeout causes settlement failures, cascading to payment gateway",
+      "trigger_service": "banking-api",
+      "affected_services": ["banking-api", "settlement-service", "payment-gateway", "notification-service"],
+      "duration_minutes": 14,
+      "transactions_per_minute": 89,
+      "avg_transaction_value": 1847,
+      "metrics": {
+        "banking-api": {"latency_ms": 8400, "error_rate": 0.34},
+        "settlement-service": {"latency_ms": 5200, "error_rate": 0.28},
+        "payment-gateway": {"latency_ms": 4100, "error_rate": 0.19},
+        "notification-service": {"latency_ms": 3800, "error_rate": 0.15},
+        "fraud-checker": {"latency_ms": 48, "error_rate": 0.001},
+        "compliance-logger": {"latency_ms": 32, "error_rate": 0.0005}
+      },
+      "maintenance_window": false
+    },
+    {
+      "id": "scenario-2",
+      "name": "Minor Settlement Delay",
+      "description": "Brief settlement service hiccup, self-resolving, below regulatory threshold",
+      "trigger_service": "settlement-service",
+      "affected_services": ["settlement-service"],
+      "duration_minutes": 3,
+      "transactions_per_minute": 12,
+      "avg_transaction_value": 920,
+      "metrics": {
+        "banking-api": {"latency_ms": 290, "error_rate": 0.003},
+        "settlement-service": {"latency_ms": 4100, "error_rate": 0.09},
+        "payment-gateway": {"latency_ms": 180, "error_rate": 0.008},
+        "notification-service": {"latency_ms": 210, "error_rate": 0.006},
+        "fraud-checker": {"latency_ms": 44, "error_rate": 0.001},
+        "compliance-logger": {"latency_ms": 31, "error_rate": 0.0005}
+      },
+      "maintenance_window": false
+    },
+    {
+      "id": "scenario-3",
+      "name": "Scheduled Maintenance False Positive",
+      "description": "Metrics spike during planned maintenance window — system correctly suppresses alert",
+      "trigger_service": "payment-gateway",
+      "affected_services": ["payment-gateway", "settlement-service"],
+      "duration_minutes": 20,
+      "transactions_per_minute": 0,
+      "avg_transaction_value": 0,
+      "metrics": {
+        "banking-api": {"latency_ms": 310, "error_rate": 0.004},
+        "settlement-service": {"latency_ms": 6200, "error_rate": 0.45},
+        "payment-gateway": {"latency_ms": 9800, "error_rate": 0.89},
+        "notification-service": {"latency_ms": 220, "error_rate": 0.007},
+        "fraud-checker": {"latency_ms": 46, "error_rate": 0.001},
+        "compliance-logger": {"latency_ms": 29, "error_rate": 0.0004}
+      },
+      "maintenance_window": true
+    }
+  ]
+}

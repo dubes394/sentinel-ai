@@ -1,0 +1,17 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0a0e1a;
+  color: #e2e8f0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0e1a; }
+::-webkit-scrollbar-thumb { background: #2d3748; border-radius: 3px; }
+
+.status-healthy { color: #48bb78; }
+.status-critical { color: #fc8181; }
+.status-degraded { color: #f6ad55; }
+.status-warning { color: #f6ad55; }
